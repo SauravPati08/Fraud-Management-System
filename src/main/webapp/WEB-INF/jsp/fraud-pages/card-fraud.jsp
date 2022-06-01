@@ -28,4 +28,4 @@
  <a href="/card-registration"><input class="btn btn-success mt-3" type="submit" value="Add Card Fraud"></a>
  <a href="/card-show?id=${user.userId}"><input class="btn btn-success mt-3" type="submit" value="View Card Fraud"></a>
  <a href="/card-update"><input class="btn btn-success mt-3" type="submit" value="Update Card Fraud"></a>
- <!-- <a href="/card-delete"><input class="btn btn-warning mt-3" type="submit" value="Delete Card Fraud"></a> -->
+ <a href="/card-delete"><input class="btn btn-warning mt-3" type="submit" value="Delete Card Fraud"></a>
