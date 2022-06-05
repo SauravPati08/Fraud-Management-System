@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mvc.fraudmanagement.entities.Card;
 import com.mvc.fraudmanagement.entities.Transaction;
 import com.mvc.fraudmanagement.repos.TransactionRepository;
 
@@ -30,48 +29,42 @@ public class TransactionService {
         return null;
     }
 
-    public void deleteTransaction(int id) {
-        Transaction transaction = getTransactionById(id);
-        if (transaction.getId() == id) {
-            transactionRepository.delete(transaction);
-        }
-    }
-
-    public List<Transaction> showAllTransactionFraud() {
-        List<Transaction> transactions = new ArrayList<>();
-        getAllTransaction();
-        for (Transaction t : transactionList) {
-            transactions.add(t);
-        }
-        return transactions;
-    }
-
-//    public Transaction getTransactionByUserId(String id) {
-//        getAllTransaction();
-//        for (Transaction transaction : transactionList) {
-//            if (transaction.getUserId().equals(id)) {
-//                return transaction;
-//            }
-//        }
-//        return null;
-//    }
-    
     public Transaction getTransactionByUserId(String id) {
-		getAllTransaction();
-		for (Transaction transaction : transactionList) {
-			if (transaction.getUserId().equals(id)) {
-				return transaction;
-			}
-		}
-		return null;
-	}
-    
-	public Transaction deleteTransaction(String id) {
-		Transaction transaction = getTransactionByUserId(id);
-		if (transaction.getUserId().equals(id)) {
-			return transaction;
-		} else {
-			return null;
-		}
-	}
+        getAllTransaction();
+        for (Transaction transaction : transactionList) {
+            if (transaction.getUserId().equals(id)) {
+                return transaction;
+            }
+        }
+        return null;
+    }
+
+    public Transaction deleteTransaction(String id) {
+        Transaction transaction = getTransactionByUserId(id);
+        if (transaction.getUserId().equals(id)) {
+            return transaction;
+        } else {
+            return null;
+        }
+    }
+
+    // public List<Transaction> showAllTransactionFraud() {
+    // List<Transaction>transactionds = new ArrayList<>();
+    // getAllTransaction();
+    // for (Transaction c : transactionList) {
+    // transactions.add(c);
+    // }
+    // return transactions;
+    // }
+
+    public List<Transaction> getTransactionByUserIdList(String id) {
+        List<Transaction> getUserTransaction = new ArrayList<>();
+        getAllTransaction();
+        for (Transaction transaction : transactionList) {
+            if (transaction.getUserId().equals(id)) {
+                getUserTransaction.add(transaction);
+            }
+        }
+        return getUserTransaction;
+    }
 }
