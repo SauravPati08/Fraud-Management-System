@@ -20,7 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 @Controller
-@SessionAttributes({ "card", "user" })
+@SessionAttributes("card")
 public class CardController {
 
 	@Autowired
@@ -53,9 +53,9 @@ public class CardController {
 
 	@RequestMapping(value = "/card-show", method = RequestMethod.GET)
 	public String viewAllCard(ModelMap model, @RequestParam String id) {
-		Card card = cardService.getCardByUserId(id);
-		if (card instanceof Card) {
-			model.put("card", card);
+		List<Card> cardList = cardService.getCardByUserIdList(id);
+		if (cardList.size() != 0) {
+			model.put("card", cardList);
 		} else {
 			model.put("errorMessage", "Card does not exist");
 		}
@@ -63,9 +63,31 @@ public class CardController {
 	}
 
 	@RequestMapping(value = "/card-delete", method = RequestMethod.GET)
-	public String deleteCard(@RequestParam String id) {
-		Card card=cardService.deleteCard(id);
-		cardRepository.delete(card);
-		return "redirect:/card-fraud";
+	public String deleteCard(ModelMap model, @RequestParam String id) {
+		Card c = cardService.deleteCard(id);
+		cardRepository.delete(c);
+		List<Card> cardList = cardService.getCardByUserIdList(id);
+		model.put("card", cardList);
+		return "dashboards/card-dashboard";
+	}
+
+	@RequestMapping(value = "/card-updateForm", method = RequestMethod.GET)
+	public String showUpdateCard(ModelMap model, @RequestParam String id) {
+		// Card card=cardService.deleteCard(id);
+		// cardRepository.delete(card);
+		Card card = cardService.getCardByUserId(id);
+		model.put("card", card);
+		return "pages/card-updateForm";
+	}
+
+	@RequestMapping(value = "/card-updateForm", method = RequestMethod.POST)
+	public String saveUpdateCard(ModelMap model, @Valid Card card, BindingResult result) {
+		List<Card> cardList = cardService.getCardByUserIdList(card.getUserId());
+		if (result.hasErrors()) {
+			model.put("error", "field cannot be updated");
+		}
+		cardRepository.save(card);
+		model.put("card", cardList);
+		return "dashboards/card-dashboard";
 	}
 }

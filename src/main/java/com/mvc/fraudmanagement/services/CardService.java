@@ -29,6 +29,16 @@ public class CardService {
 		return null;
 	}
 
+	public Card getCardByUserId(String id) {
+		getAllCard();
+		for (Card card : cardList) {
+			if (card.getUserId().equals(id)) {
+				return card;
+			}
+		}
+		return null;
+	}
+
 	public Card deleteCard(String id) {
 		Card card = getCardByUserId(id);
 		if (card.getUserId().equals(id)) {
@@ -38,22 +48,23 @@ public class CardService {
 		}
 	}
 
-	public List<Card> showAllCardFraud() {
-		List<Card> cards = new ArrayList<>();
-		getAllCard();
-		for (Card c : cardList) {
-			cards.add(c);
-		}
-		return cards;
-	}
+	// public List<Card> showAllCardFraud() {
+	// List<Card> cards = new ArrayList<>();
+	// getAllCard();
+	// for (Card c : cardList) {
+	// cards.add(c);
+	// }
+	// return cards;
+	// }
 
-	public Card getCardByUserId(String id) {
+	public List<Card> getCardByUserIdList(String id) {
+		List<Card> getUserCard = new ArrayList<>();
 		getAllCard();
 		for (Card card : cardList) {
 			if (card.getUserId().equals(id)) {
-				return card;
+				getUserCard.add(card);
 			}
 		}
-		return null;
+		return getUserCard;
 	}
 }

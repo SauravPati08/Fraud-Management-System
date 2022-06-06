@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.mvc.fraudmanagement.entities.Transaction;
 //import com.mvc.fraudmanagement.entities.User;
@@ -21,7 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 
 @Controller
-@SessionAttributes({ "transaction", "user" })
+@SessionAttributes("transaction")
 public class TransactionFraudsController {
 
     @Autowired
@@ -64,10 +63,12 @@ public class TransactionFraudsController {
     }
 
     @RequestMapping(value = "/transaction-delete", method = RequestMethod.GET)
-    public String deleteTransaction(@RequestParam String id) {
-        Transaction transaction = transactionService.deleteTransaction(id);
-        transactionRepository.delete(transaction);
-        return "redirect:/transaction-fraud";
+    public String deleteTransaction(ModelMap model, @RequestParam String id) {
+        Transaction c = transactionService.deleteTransaction(id);
+        transactionRepository.delete(c);
+        List<Transaction> transactionList = transactionService.getTransactionByUserIdList(id);
+        model.put("transaction", transactionList);
+        return "dashboards/transaction-dashboard";
     }
 
     @RequestMapping(value = "/transaction-updateForm", method = RequestMethod.GET)
@@ -89,10 +90,4 @@ public class TransactionFraudsController {
         model.put("transaction", transactionList);
         return "dashboards/transaction-dashboard";
     }
-    
-    @RequestMapping(value = "/log-out", method = RequestMethod.GET)
-	public String logOutOfficer(SessionStatus sessionStatus) {
-		sessionStatus.setComplete();
-		return "home";
-	}
 }

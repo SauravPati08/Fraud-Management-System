@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.mvc.fraudmanagement.entities.Admin;
 import com.mvc.fraudmanagement.services.AdminService;
@@ -109,5 +110,11 @@ public class AdminController {
 	public String showAdminDashboardPage() {
 		return "dashboards/admin-dashboard";
 	}
+	
+//	 @RequestMapping(value = "/log-out", method = RequestMethod.GET)
+//		public String logOutOfficer(SessionStatus sessionStatus) {
+//			sessionStatus.setComplete();
+//			return "home";
+//		}
 }
 
